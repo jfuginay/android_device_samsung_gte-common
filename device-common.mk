@@ -13,46 +13,44 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Inherit from common
 $(call inherit-product, device/samsung/msm8916-common/msm8916.mk)
-
-# Inherit from vendor
-$(call inherit-product-if-exists, vendor/samsung/gte-common/gte-common-vendor.mk)
-
-LOCAL_PATH := device/samsung/gte-common
-
-# System properties
--include $(LOCAL_PATH)/system_prop.mk
-
-# Common overlay
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
-
-# Camera
-PRODUCT_PACKAGES += Camera2
-
-# Ramdisk
-PRODUCT_PACKAGES += \
-	init.target.rc
-
-# Media (camera) configuration files
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/configs/media/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
-
-# Permissions
-PRODUCT_COPY_FILES += \
-	frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml
-
-# append the updater uri to the product properties if set
-ifneq ($(CM_UPDATER_OTA_URI),)
-	PRODUCT_PROPERTY_OVERRIDES += $(CM_UPDATER_OTA_URI)
-endif
 
 # This is a tablet.
 PRODUCT_CHARACTERISTICS := tablet
 PRODUCT_AAPT_CONFIG := xlarge
 PRODUCT_AAPT_PREF_CONFIG := mdpi
 
-# Inhert dalvik heap values from aosp
+# Common overlay
+DEVICE_PACKAGE_OVERLAYS += \
+   $(LOCAL_PATH)/overlay
+
+# Dalvik
 $(call inherit-product, frameworks/native/build/tablet-7in-xhdpi-2048-dalvik-heap.mk)
+
+# Media
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/media/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
+
+# Permissions
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml
+
+# Ramdisk
+PRODUCT_PACKAGES += \
+    init.target.rc
+
+# Radio
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.radio.snapshot_enabled=1 \
+    persist.radio.snapshot_timer=22 \
+    persist.radio.lte_vrte_ltd=1
+
+# Volume
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.vc_call_vol_steps=15 \
+    ro.config.media_vol_steps=30
+
+# Inherit from vendor
+$(call inherit-product-if-exists, vendor/samsung/gte-common/gte-common-vendor.mk)

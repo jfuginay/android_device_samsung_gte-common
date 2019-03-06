@@ -13,19 +13,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+
 # Inherit from common
 include device/samsung/msm8916-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/gte-common
+PLATFORM_PATH := device/samsung/gte-common
 
 # Audio
 USE_QCOM_MIXER_PATHS := 1
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(PLATFORM_PATH)/bluetooth
 
 # Init
-TARGET_LIBINIT_MSM8916_DEFINES_FILE := $(LOCAL_PATH)/init/init_gte.cpp
+TARGET_LIBINIT_MSM8916_DEFINES_FILE := $(PLATFORM_PATH)/init/init_gte.cpp
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := false

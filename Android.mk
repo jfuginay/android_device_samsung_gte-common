@@ -1,7 +1,5 @@
-#!/bin/bash
 #
 # Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +14,10 @@
 # limitations under the License.
 #
 
-set -e
+LOCAL_PATH := $(call my-dir)
 
-# Required!
-export DEVICES="gt58wifi gt58ltetmo gt510lte gt510wifi gtesqltespr gtelwifiue"
-export DEVICE_COMMON=gte-common
-export BOARD_COMMON=msm8916-common
-export VENDOR=samsung
+ifneq ($(filter gt58ltetmo gt58wifi gt510lte gt510wifi gtesqltespr gtelwifiue,$(TARGET_DEVICE)),)
 
-if [ -z "$SETUP_DEVICE_COMMON_DIR" ]; then
-	export SETUP_DEVICE_COMMON_DIR=1
-fi
-if [ -z "$SETUP_BOARD_COMMON_DIR" ]; then
-	export SETUP_BOARD_COMMON_DIR=0
-fi
+include $(call all-subdir-makefiles,$(LOCAL_PATH))
 
-./../../$VENDOR/$BOARD_COMMON/extract-files.sh $@
+endif
